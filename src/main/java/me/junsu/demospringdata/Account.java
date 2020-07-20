@@ -1,8 +1,7 @@
 package me.junsu.demospringdata;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Account {
@@ -14,6 +13,13 @@ public class Account {
 
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created = new Date();
+
+    private String sample;
+
+    @Transient
+    private String sample2;
     public Long getId() {
         return id;
     }
