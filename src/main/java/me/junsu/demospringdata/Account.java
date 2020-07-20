@@ -18,6 +18,18 @@ public class Account {
 
     private String sample;
 
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city", column = @Column(name="COMPANY_CITY")),
+            @AttributeOverride(name="state", column = @Column(name = "COMPANY_STATE")),
+            @AttributeOverride(name="street", column = @Column(name = "COMPANY_STREET")),
+            @AttributeOverride(name="zipCode", column = @Column(name = "COMPANY_ZIP_CODE")),
+    })
+    private Address officeAddress;
+
     @Transient
     private String sample2;
     public Long getId() {
