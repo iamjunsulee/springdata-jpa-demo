@@ -1,6 +1,7 @@
 package me.junsu.demospringdata;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,10 @@ import java.util.List;
 @Transactional
 public class JpaRunner implements ApplicationRunner {
 
-    @PersistenceContext
-    EntityManager entityManager;
+//    @PersistenceContext
+//    EntityManager entityManager;
+    @Autowired
+    PostRepository postRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -75,12 +78,14 @@ public class JpaRunner implements ApplicationRunner {
 //        posts.forEach(System.out::println); //toString()에 comments 포함시켰더니 comment 쿼리도 날려서 조회함.
 
         //직접 sql을 작성하지 않기 때문에 타입 세이프하긴 하다.
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Post> query = builder.createQuery(Post.class);
-        Root<Post> from = query.from(Post.class);
-        query.select(from);
+//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Post> query = builder.createQuery(Post.class);
+//        Root<Post> from = query.from(Post.class);
+//        query.select(from);
+//
+//        List<Post> posts = entityManager.createQuery(query).getResultList();
+//        posts.forEach(System.out::println);
 
-        List<Post> posts = entityManager.createQuery(query).getResultList();
-        posts.forEach(System.out::println);
+        postRepository.findAll().forEach(System.out::println);
     }
 }
