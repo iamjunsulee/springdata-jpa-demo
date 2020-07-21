@@ -8,6 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Component
 @Transactional
@@ -53,15 +58,29 @@ public class JpaRunner implements ApplicationRunner {
 //        comment2.setComment("꼭보자");
 //        post.addComment(comment2);
 
-        Session session = entityManager.unwrap(Session.class);
-//        session.save(post);
-        Post p = session.load(Post.class, 1l);
-        System.out.println("====================");
-        System.out.println(p.getTitle());
+//        Session session = entityManager.unwrap(Session.class);
+////        session.save(post);
+//        Post p = session.load(Post.class, 1l);
+//        System.out.println("====================");
+//        System.out.println(p.getTitle());
+//
+//        p.getComments().forEach(c ->{
+//            System.out.println("-------------------");
+//            System.out.println(c.getComment());
+//        });
 
-        p.getComments().forEach(c ->{
-            System.out.println("-------------------");
-            System.out.println(c.getComment());
-        });
+        //타입 세이프하지 않음. 오타가 나올수도 있고..(JPQL)
+//        TypedQuery<Post> query = entityManager.createQuery("select p from Post as p", Post.class);
+//        List<Post> posts = query.getResultList();
+//        posts.forEach(System.out::println); //toString()에 comments 포함시켰더니 comment 쿼리도 날려서 조회함.
+
+        //직접 sql을 작성하지 않기 때문에 타입 세이프하긴 하다.
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Post> query = builder.createQuery(Post.class);
+        Root<Post> from = query.from(Post.class);
+        query.select(from);
+
+        List<Post> posts = entityManager.createQuery(query).getResultList();
+        posts.forEach(System.out::println);
     }
 }
