@@ -86,6 +86,13 @@ public class JpaRunner implements ApplicationRunner {
 //        List<Post> posts = entityManager.createQuery(query).getResultList();
 //        posts.forEach(System.out::println);
 
-        postRepository.findAll().forEach(System.out::println);
+        //postRepository.findAll().forEach(System.out::println);
+        Post post = new Post();
+        post.setTitle("leejunsu");
+
+        Comment comment = new Comment();
+        comment.setComment("gkgkgkgkgkgk");
+
+        postRepository.save(post);
     }
 }
