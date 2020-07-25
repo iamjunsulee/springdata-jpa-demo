@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -26,5 +27,11 @@ public class CommentRepositoryTest {
         List<Comment> comments = commentRepository.findAll();
         assertEquals(comments.size(), 1);
         assertEquals(commentRepository.count(), 1);
+
+        Optional<Comment> byId = commentRepository.findById(100L);
+        assertEquals(byId, Optional.empty());
+        Comment comment1 = byId.orElseThrow(IllegalArgumentException::new);
+
+        //commentRepository.save(null);
     }
 }
